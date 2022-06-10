@@ -1,3 +1,5 @@
+[![Makefile CI](https://github.com/jyvet/game-of-life-ncurses/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/jyvet/game-of-life-ncurses/actions/workflows/c-cpp.yml)
+
 Game Of Life
 ============
 

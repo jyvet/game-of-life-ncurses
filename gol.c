@@ -13,6 +13,7 @@
 #include "matrix.h"
 #include "display.h"
 #include "args.h"
+#include "gol.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
@@ -95,7 +96,10 @@ gol_count_neighbours(Matrix *m, const size_t row, const size_t col)
             if (i == row && j == col)
                 continue;
             else
-                count += get_mat(m, i, j);
+                /* XXX: matrix may contain non binary values to differentiate
+                 * the cells which were modified during the previous generation.
+                 * Convert the output of get_mat into a binary value. */
+                count += !!get_mat(m, i, j);
         }
 
     return count;
@@ -132,7 +136,7 @@ gol_compute(Gol *g)
                  * 1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
                  * 3. Any live cell with more than three live neighbours dies, as if by overpopulation.
                  */
-                set_mat(next, i, j, 0); /* Set dead */
+                set_mat(next, i, j, DEAD); /* Set dead */
                 g->changes++;
             }
             else if (alive && (count == 2 || count == 3))
@@ -140,7 +144,7 @@ gol_compute(Gol *g)
                 /**
                  * 2. Any live cell with two or three live neighbours lives on to the next generation.
                  */
-                set_mat(next, i, j, 1); /* Set still alive */
+                set_mat(next, i, j, ALIVE); /* Set still alive */
             }
             else if (!alive && count == 3)
             {
@@ -148,7 +152,7 @@ gol_compute(Gol *g)
                  * 4. Any dead cell with exactly three live neighbours becomes a live cell,
                  * as if by reproduction.
                  */
-                set_mat(next, i, j, 1); /* Set alive */
+                set_mat(next, i, j, NEWLY_ALIVE); /* Set alive */
                 g->changes++;
             }
             else

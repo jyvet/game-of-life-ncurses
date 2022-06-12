@@ -12,9 +12,13 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "display.h"
+#include "gol.h"
 
-#define COLOR_TITLE           1
-#define COLOR_LIVING_CELL     2
+typedef enum _color {
+    COLOR_TITLE           = 1,
+    COLOR_LIVING_CELL     = 2,
+    COLOR_NEW_LIVING_CELL = 3
+} display_color;
 #define COLOR_BOX   COLOR_TITLE
 
 #define CELL_WIDTH            3  /* Amount of char to display a cell in width */
@@ -29,14 +33,15 @@
  * @param   value[in]  Cell value
  */
 static void
-display_cell(const size_t row, const size_t col, const char value)
+display_cell(const size_t row, const size_t col, const gol_state state)
 {
-    if (value == 0)
+    if (state == DEAD)
         return;
 
-    attron(COLOR_PAIR(COLOR_LIVING_CELL));
+    const display_color color = (state == ALIVE) ? COLOR_LIVING_CELL : COLOR_NEW_LIVING_CELL;
+    attron(COLOR_PAIR(color));
     mvhline(TITLE_LINES + 1 + row, 1 + CELL_WIDTH * col, ' ', CELL_WIDTH);
-    attroff(COLOR_PAIR(COLOR_LIVING_CELL));
+    attroff(COLOR_PAIR(color));
 }
 
 /**
@@ -95,6 +100,7 @@ display_init(void)
     start_color();
     init_pair(COLOR_TITLE, COLOR_YELLOW, COLOR_BLACK);
     init_pair(COLOR_LIVING_CELL, COLOR_BLACK, COLOR_GREEN);
+    init_pair(COLOR_NEW_LIVING_CELL, COLOR_BLACK, COLOR_YELLOW);
 
     /* Disabling cursor */
     curs_set(0);

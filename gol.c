@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.h"
+#include "display.h"
 #include "args.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
@@ -168,16 +169,32 @@ main(int argc, char *argv[])
 
     g = gol_init(args.n_row, args.n_col, args.seed);
 
+    if (args.is_display)
+        display_init();
+
     size_t t;
+    const size_t delay_us = args.gen_delay_ms * 1000;
     const size_t max_gen = args.n_generation;
 
     for (t = 0; t < max_gen; t++)
     {
         gol_compute(g);
 
+        if (args.is_display)
+        {
+            display_erase();
+            display_title(" Game Of Life [%lux%lu, seed: %lu, max step: %lu] - step: %lu",
+                          args.n_col, args.n_row, args.seed, args.n_generation, g->step);
+            display_mat(g->current);
+            usleep(delay_us);
+        }
+
         if (g->changes == 0)
             break;
     }
+
+    if (args.is_display)
+        display_fini();
 
     printf("Game of Life [%lux%lu, seed: %lu, max step: %lu] - steps: %lu\n",
            args.n_col, args.n_row, args.seed, args.n_generation, g->step);

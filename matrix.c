@@ -34,7 +34,7 @@ init_rand_mat(Matrix *m, const size_t nrow, const size_t ncol)
  * @param   nrow[in]        Amount of rows
  * @param   ncol[in]        Amout of columns
  *
- * @return  Matrix          Pointer to the new Matrix structure
+ * @return  Pointer to the new Matrix structure
  */
 Matrix*
 alloc_mat(const size_t nrow, const size_t ncol)

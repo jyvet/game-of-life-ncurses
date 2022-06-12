@@ -1,5 +1,5 @@
 /**
-* Game of Life:
+* Game of Life
 * matrix.h: Binary matrix interface
 *
 * URL       https://github.com/jyvet/game-of-life-ncurses

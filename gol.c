@@ -32,7 +32,7 @@ typedef struct _Gol
  * @param   ncol[in]        Amout of columns
  * @param   seed[in]        Seed for initializing the matrix
  *
- * @return  Gol             Pointer to the new Gol structure
+ * @return  Pointer to the new Gol structure
  */
 static Gol*
 gol_init(const size_t nrow, const size_t ncol, const size_t seed)
@@ -80,7 +80,7 @@ gol_fini(Gol *g)
  * @param   row[in]         Row index
  * @param   col[in]         Column index
  *
- * @return  size_t          Amount of neighbours
+ * @return  Amount of neighbours
  */
 static size_t
 gol_count_neighbours(Matrix *m, const size_t row, const size_t col)

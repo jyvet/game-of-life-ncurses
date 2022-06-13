@@ -6,6 +6,7 @@ Game Of Life
 This application runs [John Horton Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 simulation and displays each generation (tick/step) in the terminal.
 
+![Game Of Life ncurses](/data/gol-ncurses.gif)
 
 Dependencies
 ------------
